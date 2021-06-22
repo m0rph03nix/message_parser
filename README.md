@@ -10,6 +10,7 @@ graph LR
     Node -- /message/person -->D[global manager]
     Node -- /message/object -->D[global manager]
     Node -- /message/object_num -->D[global manager]
+    Node -- /message/object_darknet -->D[global manager]
 ```
 
 
@@ -28,6 +29,11 @@ graph LR
 - -1 :  pending
 - 0 : undefined
 - 1-77 : ycb object number  
+
+`/message/object_darknet` possible values :  
+- "pending"
+- label from darknet classes
+- "undefined"
 
 If you receive "pending" or -1, wait for receiving /message  
 

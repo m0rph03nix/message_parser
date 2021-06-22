@@ -23,13 +23,15 @@ class MessageParser():
         self.pubPerson = rospy.Publisher('/message/person', String, queue_size=1)
         self.pubObject = rospy.Publisher('/message/object', String, queue_size=1)
         self.pubObjectNum = rospy.Publisher('/message/object_num', Int16, queue_size=1)
+        self.pubObjectDarknet = rospy.Publisher('/message/object_darknet', String, queue_size=1)
 
         # Declare attributes
         self.person = "pending"
         self.object = "pending"
         self.object_num = -1
+        self.object_darknet = "pending"
 
-        self.load_dictionnary()
+        self.load_dictionnaries()
 
         rospy.loginfo("MessageParser init")
 
@@ -38,6 +40,7 @@ class MessageParser():
             self.pubPerson.publish(self.person)
             self.pubObject.publish(self.object)
             self.pubObjectNum.publish(self.object_num)
+            self.pubObjectDarknet.publish(self.object_darknet)
             rate.sleep()        
 
         rospy.spin()
@@ -57,10 +60,14 @@ class MessageParser():
 
         if( num == 0 ):
             self.object = "undefined"
+            self.object_darknet = "undefined"
         else:
             self.object = name
 
         self.object_num = num
+
+        if( num > 0 ):
+            self.object_darknet = self.ycb_num_to_darknet_label(num)
 
 
     # check if there is an object name of the ycb dataset is in the /message request
@@ -78,9 +85,24 @@ class MessageParser():
         
         return 0, "undefined"
 
+    
+    def ycb_num_to_darknet_label(self, num):
+        # list out keys and values separately
+        key_list = list(self.darknet_label_to_ycb_number.keys())
+        val_list = list(self.darknet_label_to_ycb_number.values())
+        
+        # print key with val num
+        try:
+            position = val_list.index(num)
+            return key_list[position] 
+        except:
+            return "undefined"
+
+               
+
 
     # Load YCB label dictionnary
-    def load_dictionnary(self):
+    def load_dictionnaries(self):
 
         self.ycb_number_to_ycb_names =    \
             {
@@ -166,6 +188,66 @@ class MessageParser():
             }
 
 
+        self.darknet_label_to_ycb_number = \
+            {
+                "cracker"               : 3 , 
+                "sugar"                 : 4 ,
+                "pudding"               : 8 ,
+                "gelatin"               : 9 ,
+                "pottedmeat"            : 10,
+                "coffee"                : 2 ,
+                "tuna"                  : 7 ,
+                "chips"                 : 1 ,
+                "mustard"               : 6 ,
+                "tomatosoup"            : 5 ,
+                "banana"                : 11,
+                "strawberry"            : 12,
+                "apple"                 : 13,
+                "lemon"                 : 14,
+                "peach"                 : 15,
+                "pear"                  : 16,
+                "orange"                : 17,
+                "plum"                  : 18,
+                "windex"                : 22,
+                "bleach"                : 21,
+                "pitcher"               : 19,
+                "plate"                 : 29,
+                "bowl"                  : 24,
+                "fork"                  : 30,
+                "spoon"                 : 26,
+                "spatula"               : 33,
+                "wineglass"             : 23,
+                "cup"                   : 65,
+                "largemarker"           : 40,
+                "smallmarker"           : 41,
+                "padlocks"              : 38,
+                "bolt"                  : 46,
+                "nut"                   : 47,
+                "clamp"                 : 49,
+                "soccerball"            : 53,
+                "baseball"              : 55,
+                "tennisball"            : 56,
+                "golfball"              : 58,
+                "foambrick"             : 61,
+                "dice"                  : 62,
+                "rope"                  : -1,
+                "chain"                 : 59,
+                "rubikscube"            : 77,
+                "coloredwoodblock"      : 70,
+                "peghole"               : 71,
+                "timer"                 : 76,
+                "airplane"              : 72,
+                "tshirt"                : -1,
+                "magazine"              : -1,
+                "creditcard"            : -1,
+                "legoduplo"             : 73,
+                "sponge"                : 26,
+                "coloredwoodblockpot"   : 70,
+                "softball"              : 54,
+                "racquetball"           : 57,
+                "marbles"               : 63,
+                "mug"                   : 25
+            }
 
 
 

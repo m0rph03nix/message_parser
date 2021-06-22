@@ -152,6 +152,6 @@ def ycb_num_to_darknet_label(darknet_label_to_ycb_number, num):
     key_list = list(darknet_label_to_ycb_number.keys())
     val_list = list(darknet_label_to_ycb_number.values())
     
-    # print key with val 100
+    # print key with val num
     position = val_list.index(num)
     return key_list[position]
