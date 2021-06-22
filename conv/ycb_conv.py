@@ -1,4 +1,4 @@
-ycb_number_to_ycb_names =    
+ycb_number_to_ycb_names =    \
     {
         1:["chips_can"],
         2:["master_chef_can", "coffee"],
@@ -73,18 +73,19 @@ ycb_number_to_ycb_names =
         69:[],
         70:["colored_wood_blocks", "a_colored_wood_blocks", "b_colored_wood_blocks"],
         71:["nine_hole_peg_test"],
-        72:["toy_airplane", "a_toy_airplane", "b_toy_airplane"], "c_toy_airplane", "d_toy_airplane", "e_toy_airplane", "f_toy_airplane", "g_toy_airplane", "h_toy_airplane", "i_toy_airplane","j_toy_airplane", "k_toy_airplane"],
-        73:["a_lego_duplo"],"b_lego_duplo", "c_lego_duplo", "d_lego_duplo", "e_lego_duplo", "f_lego_duplo", "g_lego_duplo", "h_lego_duplo", "i_lego_duplo", "j_lego_duplo", "k_lego_duplo", "l_lego_duplo", "m_lego_duplo"],
+        72:["toy_airplane", "a_toy_airplane", "b_toy_airplane", "c_toy_airplane", "d_toy_airplane", "e_toy_airplane", "f_toy_airplane", "g_toy_airplane", "h_toy_airplane", "i_toy_airplane","j_toy_airplane", "k_toy_airplane"],
+        73:["a_lego_duplo","b_lego_duplo", "c_lego_duplo", "d_lego_duplo", "e_lego_duplo", "f_lego_duplo", "g_lego_duplo", "h_lego_duplo", "i_lego_duplo", "j_lego_duplo", "k_lego_duplo", "l_lego_duplo", "m_lego_duplo"],
         74:[],
         75:[],
         76:["timer"],
         77:["rubiks_cube"]
+            
     }
 
 
 
 
-darknet_label_to_ycb_number = 
+darknet_label_to_ycb_number = \
     {
         "cracker"               : 3 , 
         "sugar"                 : 4 ,
@@ -146,3 +147,11 @@ darknet_label_to_ycb_number =
     }
 
 
+def ycb_num_to_darknet_label(darknet_label_to_ycb_number, num):
+    # list out keys and values separately
+    key_list = list(darknet_label_to_ycb_number.keys())
+    val_list = list(darknet_label_to_ycb_number.values())
+    
+    # print key with val 100
+    position = val_list.index(num)
+    return key_list[position]
